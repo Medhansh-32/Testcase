@@ -1,0 +1,9 @@
+com\zomind\testcase\TestcaseApplication.class
+com\zomind\testcase\Entity\TestCase$TestCaseBuilder.class
+com\zomind\testcase\Entity\TestCase.class
+com\zomind\testcase\dto\TestCaseDTO.class
+com\zomind\testcase\Enums\Status.class
+com\zomind\testcase\repository\TestCaseRepositories.class
+com\zomind\testcase\Enums\Priority.class
+com\zomind\testcase\Service\TestCaseService.class
+com\zomind\testcase\controller\TestCaseController.class
