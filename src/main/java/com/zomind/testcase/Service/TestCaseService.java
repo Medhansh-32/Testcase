@@ -41,6 +41,10 @@ public class TestCaseService {
     }
 
     public ResponseEntity<List<TestCase>> createTestCase(List<TestCaseDTO> testCaseDTO){
+        if(testCaseDTO==null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         try {
             LocalDateTime lastUpdated = getDateAndTime();
 
