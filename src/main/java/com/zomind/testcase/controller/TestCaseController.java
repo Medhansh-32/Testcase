@@ -27,7 +27,7 @@ public class TestCaseController {
 
 
     @GetMapping
-    public ResponseEntity<Page<TestCase>> getTestCases(@RequestParam("page") int page,
+    public ResponseEntity<Page<TestCase>> getTestCases(@RequestParam(name = "page",defaultValue = "0") int page,
                                                        @RequestParam(name = "size", defaultValue = "5") int size,
                                                        @RequestParam(name = "status", required = false) Status status,
                                                        @RequestParam(name = "priority", required = false) Priority priority) {
