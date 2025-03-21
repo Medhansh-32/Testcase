@@ -44,8 +44,8 @@ The core entity representing a test case with the following attributes:
 - `id` → Unique identifier (MongoDB ObjectId)
 - `title` → Test case title
 - `description` → Detailed description of the test case
-- `status` → Current status (**PENDING, IN_PROGRESS, COMPLETED, etc.**)
-- `priority` → Importance level (**LOW, MEDIUM, HIGH, CRITICAL**)
+- `status` → Current status (**PENDING, IN_PROGRESS, PASSED, FAILED**)
+- `priority` → Importance level (**LOW, MEDIUM, HIGH**)
 - `createdAt` → Creation timestamp
 - `updatedAt` → Last update timestamp
 
