@@ -33,7 +33,7 @@ The **Test Case Management System** is a robust REST API built with **Spring Boo
 | **DELETE** | `/api/testcases/{id}` | Delete a test case |
 
 🔗 **For more precise API details, access the Swagger documentation:**  
-👉 [Test Case API Documentation](https://testcase-nbgy.onrender.com/swagger-ui/index.html)
+👉 [Swagger Documentation](https://testcase-nbgy.onrender.com/swagger-ui/index.html)
 
 ## Data Models
 
