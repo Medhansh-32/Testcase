@@ -26,9 +26,9 @@ The **Test Case Management System** is a robust REST API built with **Spring Boo
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| **GET** | `/api/testcases/` | Retrieve test cases with pagination and optional filtering |
+| **GET** | `/api/testcases` | Retrieve test cases with pagination and optional filtering |
 | **GET** | `/api/testcases/{id}` | Get a specific test case by ID |
-| **POST** | `/api/testcases/` | Create new test cases |
+| **POST** | `/api/testcases` | Create new test cases |
 | **PUT** | `/api/testcases/{id}` | Update an existing test case |
 | **DELETE** | `/api/testcases/{id}` | Delete a test case |
 
