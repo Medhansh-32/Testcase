@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/api/testcases/")
+@RequestMapping("/api/testcases")
 @RestController
 @Slf4j
 public class TestCaseController {
