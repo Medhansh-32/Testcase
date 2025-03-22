@@ -77,10 +77,14 @@ public class TestCaseService {
     public ResponseEntity<Page<TestCase>> getTestcases(int page, int size, Status status, Priority priority) {
         try {
             Pageable pageRequest = PageRequest.of(page, size);
-            if (status == null && priority == null) {
-                return new ResponseEntity<>(testCaseRepositories.findAll(pageRequest), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(testCaseRepositories.findByStatusAndPriority(status, priority, pageRequest), HttpStatus.OK);
+            if (status != null && priority != null) {
+                return new ResponseEntity<>(testCaseRepositories.findByStatusAndPriority(status,priority,pageRequest),HttpStatus.OK);
+            } else if(status!=null ){
+                return new ResponseEntity<>(testCaseRepositories.findByStatus(status, pageRequest), HttpStatus.OK);
+            }else if(priority!=null ){
+                return new ResponseEntity<>(testCaseRepositories.findByPriority(priority, pageRequest), HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(testCaseRepositories.findAll(pageRequest),HttpStatus.OK);
             }
         } catch (Exception e) {
             log.error(e.getMessage());

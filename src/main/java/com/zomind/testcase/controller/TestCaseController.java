@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequestMapping("/api/testcases")
+@CrossOrigin("http://localhost:5173/")
 @RestController
 @Slf4j
 public class TestCaseController {

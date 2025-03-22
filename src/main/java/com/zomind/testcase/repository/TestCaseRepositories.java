@@ -15,4 +15,8 @@ public interface TestCaseRepositories extends MongoRepository<TestCase, ObjectId
 
      Page<TestCase> findAll(Pageable pageable);
      Page<TestCase> findByStatusAndPriority(Status status, Priority priority,Pageable pageable);
+
+    Page<TestCase> findByStatus(Status status ,Pageable pageRequest);
+
+    Page<TestCase> findByPriority(Priority priority, Pageable pageable);
 }
