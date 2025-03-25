@@ -5,6 +5,7 @@ import com.zomind.testcase.Enums.Priority;
 import com.zomind.testcase.Enums.Status;
 import com.zomind.testcase.Service.TestCaseService;
 import com.zomind.testcase.dto.TestCaseDTO;
+import com.zomind.testcase.dto.TestCaseDtoSend;
 import com.zomind.testcase.repository.TestCaseRepositories;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
@@ -93,7 +94,7 @@ class TestCaseServiceTest {
     void getTestcases_ReturnsListOfTestCases() {
         when(testCaseRepositories.findAll()).thenReturn(testCases);
 
-        ResponseEntity<List<TestCase>> response = testCaseService.getTestcases();
+        ResponseEntity<List<TestCaseDtoSend>> response = testCaseService.getTestcases();
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -107,7 +108,7 @@ class TestCaseServiceTest {
 
         when(testCaseRepositories.findAll(any(Pageable.class))).thenReturn(page);
 
-        ResponseEntity<Page<TestCase>> response = testCaseService.getTestcases(0, 10, null, null);
+        ResponseEntity<Page<TestCaseDtoSend>> response = testCaseService.getTestcases(0, 10, null, null);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -121,7 +122,7 @@ class TestCaseServiceTest {
 
         doReturn(page).when(testCaseRepositories).findByStatusAndPriority(any(Status.class), any(Priority.class), any(Pageable.class));
 
-        ResponseEntity<Page<TestCase>> response = testCaseService.getTestcases(0, 10, Status.PENDING, Priority.HIGH);
+        ResponseEntity<Page<TestCaseDtoSend>> response = testCaseService.getTestcases(0, 10, Status.PENDING, Priority.HIGH);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());

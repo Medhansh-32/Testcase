@@ -5,6 +5,7 @@ import com.zomind.testcase.Enums.Priority;
 import com.zomind.testcase.Enums.Status;
 import com.zomind.testcase.Service.TestCaseService;
 import com.zomind.testcase.dto.TestCaseDTO;
+import com.zomind.testcase.dto.TestCaseDtoSend;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RequestMapping("/api/testcases")
 @RestController
+@CrossOrigin("https://testcase-management.onrender.com/")
 @Slf4j
 public class TestCaseController {
 
@@ -27,10 +29,10 @@ public class TestCaseController {
 
 
     @GetMapping
-    public ResponseEntity<Page<TestCase>> getTestCases(@RequestParam(name = "page",defaultValue = "0") int page,
-                                                       @RequestParam(name = "size", defaultValue = "5") int size,
-                                                       @RequestParam(name = "status", required = false) Status status,
-                                                       @RequestParam(name = "priority", required = false) Priority priority) {
+    public ResponseEntity<Page<TestCaseDtoSend>> getTestCases(@RequestParam(name = "page",defaultValue = "0") int page,
+                                                              @RequestParam(name = "size", defaultValue = "5") int size,
+                                                              @RequestParam(name = "status", required = false) Status status,
+                                                              @RequestParam(name = "priority", required = false) Priority priority) {
 
         return testCaseService.getTestcases(page, size, status, priority);
     }

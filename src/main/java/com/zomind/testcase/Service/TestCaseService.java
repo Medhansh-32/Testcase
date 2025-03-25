@@ -5,6 +5,7 @@ import com.zomind.testcase.Enums.Priority;
 import com.zomind.testcase.Enums.Status;
 import com.zomind.testcase.dto.TestCaseDTO;
 
+import com.zomind.testcase.dto.TestCaseDtoSend;
 import com.zomind.testcase.repository.TestCaseRepositories;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,8 +42,23 @@ public class TestCaseService {
         return zonedDateTime.toLocalDateTime();
     }
 
-    public ResponseEntity<List<TestCase>> createTestCase(List<TestCaseDTO> testCaseDTO){
-        if(testCaseDTO==null){
+    public Page<TestCaseDtoSend> streamHelper(Page<TestCase> testCases) {
+        return testCases
+                .map(testcase -> TestCaseDtoSend.builder()
+                        .id(testcase.getId().toHexString())
+                        .title(testcase.getTitle())
+                        .description(testcase.getDescription())
+                        .status(testcase.getStatus())
+                        .priority(testcase.getPriority())
+                        .createdAt(testcase.getCreatedAt())
+                        .updatedAt(testcase.getUpdatedAt())
+                        .build()
+                );
+
+    }
+
+    public ResponseEntity<List<TestCase>> createTestCase(List<TestCaseDTO> testCaseDTO) {
+        if (testCaseDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -52,14 +69,14 @@ public class TestCaseService {
                     .stream()
                     .map(testCase ->
                             TestCase.builder()
-                            .title(testCase.title())
-                            .description(testCase.description())
-                            .status(testCase.status())
-                            .priority(testCase.priority())
-                            .createdAt(lastUpdated)
-                            .updatedAt(lastUpdated)
-                            .build())
-                    .collect(Collectors.toList());
+                                    .title(testCase.title())
+                                    .description(testCase.description())
+                                    .status(testCase.status())
+                                    .priority(testCase.priority())
+                                    .createdAt(lastUpdated)
+                                    .updatedAt(lastUpdated)
+                                    .build())
+                    .toList();
 
             testCaseRepositories.saveAll(list);
 
@@ -70,21 +87,30 @@ public class TestCaseService {
         }
     }
 
-    public ResponseEntity<List<TestCase>> getTestcases() {
-        return new ResponseEntity<>(testCaseRepositories.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<TestCaseDtoSend>> getTestcases() {
+        return new ResponseEntity<>(testCaseRepositories.findAll().stream()
+                .map(testcase -> TestCaseDtoSend.builder()
+                        .id(testcase.getId().toHexString())
+                        .title(testcase.getTitle())
+                        .status(testcase.getStatus())
+                        .priority(testcase.getPriority())
+                        .createdAt(testcase.getCreatedAt())
+                        .updatedAt(testcase.getUpdatedAt())
+                        .build()
+                ).toList(), HttpStatus.OK);
     }
 
-    public ResponseEntity<Page<TestCase>> getTestcases(int page, int size, Status status, Priority priority) {
+    public ResponseEntity<Page<TestCaseDtoSend>> getTestcases(int page, int size, Status status, Priority priority) {
         try {
             Pageable pageRequest = PageRequest.of(page, size);
             if (status != null && priority != null) {
-                return new ResponseEntity<>(testCaseRepositories.findByStatusAndPriority(status,priority,pageRequest),HttpStatus.OK);
-            } else if(status!=null ){
-                return new ResponseEntity<>(testCaseRepositories.findByStatus(status, pageRequest), HttpStatus.OK);
-            }else if(priority!=null ){
-                return new ResponseEntity<>(testCaseRepositories.findByPriority(priority, pageRequest), HttpStatus.OK);
-            }else{
-                return new ResponseEntity<>(testCaseRepositories.findAll(pageRequest),HttpStatus.OK);
+                return new ResponseEntity<>(streamHelper(testCaseRepositories.findByStatusAndPriority(status, priority, pageRequest)), HttpStatus.OK);
+            } else if (status != null) {
+                return new ResponseEntity<>(streamHelper(testCaseRepositories.findByStatus(status, pageRequest)), HttpStatus.OK);
+            } else if (priority != null) {
+                return new ResponseEntity<>(streamHelper(testCaseRepositories.findByPriority(priority, pageRequest)), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(streamHelper(testCaseRepositories.findAll(pageRequest)), HttpStatus.OK);
             }
         } catch (Exception e) {
             log.error(e.getMessage());
