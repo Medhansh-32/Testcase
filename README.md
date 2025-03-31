@@ -20,7 +20,7 @@ The **Test Case Management System** is a robust REST API built with **Spring Boo
 - **Build Tool**: Maven
 - **Testing**: JUnit 5, Mockito
 - **Documentation**: Lombok for reducing boilerplate code
-- **Architecture**: Microservice design with clear separation of concerns
+
 
 ## API Endpoints
 
